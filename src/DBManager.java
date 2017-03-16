@@ -49,6 +49,17 @@ public class DBManager {
 		}
 	}
 	
+	public static ResultSet getRow(String table, String where) {
+		try {
+			Connection conn = DBConn.getInstance().getConnection();
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			return stmt.executeQuery("SELECT * FROM " + table + " WHERE name='" + where + "'"); 
+		} catch(SQLException e) {
+			System.err.println(e);
+			return null;
+		}
+	}
+	
 	/**
 	 * General insert method that uses a reflexive method - went thru all the hassle so I could copy paste in future projects
 	 * @param location
@@ -68,9 +79,7 @@ public class DBManager {
 			PreparedStatement  stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			for(int i=0;i<params.size();i++) {
-				System.out.println(params.get(i).toString() + "  &  ");
 				String className = params.get(i).getClass().getSimpleName();
-				System.out.println(className + "\n");
 				switch(className) {
 				case "String":
 					stmt.setString(i+1, (String)params.get(i));

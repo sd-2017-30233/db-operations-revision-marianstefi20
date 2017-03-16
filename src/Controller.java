@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class Controller implements ActionListener {
@@ -65,7 +67,7 @@ public class Controller implements ActionListener {
 		panel1.add(l4);
 		panel1.add(tf4);
 		
-		int result = JOptionPane.showConfirmDialog(null, panel1, "Adauga un client",
+		int result = JOptionPane.showConfirmDialog(null, panel1, "Adauga un student",
 				 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
 		if (result == JOptionPane.OK_OPTION) {
@@ -81,19 +83,60 @@ public class Controller implements ActionListener {
 				System.err.println(e);
 			}
         	// Trebuie sa actualizam aici GUI
-        	
+        	gui.mainPanel.revalidate();
+        	gui.mainPanel.repaint();
 		} else {
 		    System.out.println("Cancelled");
 		}
 
 	}
 	
-	private void selectStudent() {
+	private void selectStudent(){
+		JPanel panel = new JPanel(new GridLayout(1,1));
+		JLabel l1 = new JLabel("Nume: ");  // selectia o facem dupa nume
+		JTextField tf1 = new JTextField();
+		panel.add(l1);
+		panel.add(tf1);
+		int result = JOptionPane.showConfirmDialog(null, panel, "Selecteaza un student",
+				 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		
+		if (result == JOptionPane.OK_OPTION) {
+			JTable table2 = null;
+			try {
+				table2 = new JTable(GUI.buildTableModel(DBManager.getRow("students", tf1.getText())));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JScrollPane pane2 = new JScrollPane(table2);
+			pane2.setPreferredSize(new Dimension(500,100));
+			panel.add(pane2);
+		} else {
+		    System.out.println("Cancelled");
+		}
 		
 	}
 	
 	private void stergeStudent() {
+		JPanel panel = new JPanel(new GridLayout(1,1));
+		JLabel l1 = new JLabel("Nume: ");  // selectia o facem dupa nume
+		JTextField tf1 = new JTextField();
+		panel.add(l1);
+		panel.add(tf1);
+		int result = JOptionPane.showConfirmDialog(null, panel, "Sterge un student",
+				 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		
+		if (result == JOptionPane.OK_OPTION) {
+			try {
+				DBManager.delete("students", "id", Integer.parseInt(tf1.getText()));
+			} catch (NumberFormatException e) {
+				System.err.println(e);
+			} catch (SQLException e) {
+				System.err.println(e);
+			}
+		} else {
+		    System.out.println("Cancelled");
+		}
 	}
 	
 	private void updateStudent() {
