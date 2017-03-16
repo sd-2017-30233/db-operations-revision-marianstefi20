@@ -34,6 +34,22 @@ public class DBManager {
 	}
 	
 	/**
+	 * Generic method of getting all the data from the table specified at "table"
+	 * @param table
+	 * @return
+	 */
+	public static ResultSet getAll(String table) {
+		try {
+			Connection conn = DBConn.getInstance().getConnection();
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			return stmt.executeQuery("SELECT * FROM " + table); 
+		} catch(SQLException e) {
+			System.err.println(e);
+			return null;
+		}
+	}
+	
+	/**
 	 * General insert method that uses a reflexive method - went thru all the hassle so I could copy paste in future projects
 	 * @param location
 	 * @param what

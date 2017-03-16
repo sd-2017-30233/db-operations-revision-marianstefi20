@@ -2,6 +2,8 @@ public class Student {
 	private String name;
 	private Integer year;
 	private String faculty;
+	private String adress;
+	
 	public String getName() {
 		return name;
 	}
@@ -20,4 +22,11 @@ public class Student {
 	public void setFaculty(String faculty) {
 		this.faculty = faculty;
 	}
+	public String getAdress() {
+		return adress;
+	}
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+	
 }
