@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class DBManager {
 	
 	private static String prepInsertStmt(int howMany) {
-		String nrOfQuestions = null;
+		String nrOfQuestions = "";
 		String prepStmt = null;
 		for(int i=0;i<howMany;i++) {
 			nrOfQuestions += "?,";
@@ -59,7 +59,7 @@ public class DBManager {
 	 */
 	public static boolean insert(String location, String what, ArrayList<Object> params) throws SQLException {
 		String prepStmt = prepInsertStmt(params.size());
-		String sql = "INSERT into " + location + " " + what + " VALUES(" + prepStmt + ")";
+		String sql = "INSERT into " + location + " (" + what + ") VALUES(" + prepStmt + ")";
 		System.out.println(sql);
 		
 		ResultSet keys = null;
@@ -68,13 +68,15 @@ public class DBManager {
 			PreparedStatement  stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			for(int i=0;i<params.size();i++) {
-				String className = params.get(i).getClass().getName();
+				System.out.println(params.get(i).toString() + "  &  ");
+				String className = params.get(i).getClass().getSimpleName();
+				System.out.println(className + "\n");
 				switch(className) {
 				case "String":
-					stmt.setString(i, (String)params.get(i));
+					stmt.setString(i+1, (String)params.get(i));
 					break;
 				case "Integer":
-					stmt.setInt(i, (Integer)params.get(i));
+					stmt.setInt(i+1, (Integer)params.get(i));
 					break;
 				}
 			}

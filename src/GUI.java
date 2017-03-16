@@ -28,14 +28,13 @@ public class GUI extends JFrame implements ActionListener {
 	public static final int LATIME  = 540;
 	public static final int INALTIME = 600;
 	
-	private Controller controller;
+	private Controller controller = new Controller(this);
 	public JPanel mainPanel;
 	
 	public GUI(String titluSimulare) throws SQLException {
 		super(titluSimulare);		
 		this.prepareGUI();
 		setVisible(true); 
-		this.controller = new Controller(this);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -92,26 +91,30 @@ public class GUI extends JFrame implements ActionListener {
 			table1.setFillsViewportHeight(true);
 			JScrollPane pane1 = new JScrollPane(table1);
 			pane1.setPreferredSize(new Dimension(500,100));
-			//JOptionPane.showMessageDialog(null, new JScrollPane(table1));
 			panel1.add(pane1);
 			
 			// Adaugarea de butoane pentru operatii CRUD
-			// 1. Adaugare student
+			//  Adaugare student
 			JButton adaugaStudent = new JButton("Add");
 			adaugaStudent.setActionCommand("adaugaStudent");
 			adaugaStudent.addActionListener(this.controller);
 			panel1.add(adaugaStudent);
-			// 2. Selectare student
+			//  Selectare student
 			JButton selectareStudent = new JButton("Select");
 			selectareStudent.setActionCommand("selectStudent");
 			selectareStudent.addActionListener(this.controller);
 			panel1.add(selectareStudent);
-			// 3. Stergere student
+			//  Actualizare student
+			JButton updateStudent = new JButton("Update");
+			updateStudent.setActionCommand("updateStudent");
+			updateStudent.addActionListener(this.controller);
+			panel1.add(updateStudent);
+			//  Stergere student
 			JButton stergeStudent = new JButton("Delete");
 			stergeStudent.setActionCommand("stergeStudent");
 			stergeStudent.addActionListener(this.controller);
 			panel1.add(stergeStudent);
-			// 4. Vizualizare cursuri la care este inrolat studentul
+			//  Vizualizare cursuri la care este inrolat studentul
 			JButton enrollStudent = new JButton("Enrollment");
 			enrollStudent.setActionCommand("enrollStudent");
 			enrollStudent.addActionListener(this.controller);
@@ -139,7 +142,6 @@ public class GUI extends JFrame implements ActionListener {
 			table2.setFillsViewportHeight(true);
 			JScrollPane pane2 = new JScrollPane(table2);
 			pane2.setPreferredSize(new Dimension(500,100));
-			//JOptionPane.showMessageDialog(null, new JScrollPane(table2));
 			panel2.add(pane2);
 			
 			
